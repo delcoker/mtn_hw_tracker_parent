@@ -21,26 +21,26 @@ $cmd = get_datan("cmd");
 switch ($cmd) {
 
    case 1:
-      //get promotion based on idhealth promotion
-      get_info();
+//get promotion based on idhealth promotion
+      register();
       break;
 
    case 2:
-      //get all promotions 
+//get all promotions 
       login();
       break;
 
    case 3:
-      addassignment();
+      check_already_registered();
       break;
 
    case 4:
-      //update promotion
+//update promotion
       send_message();
       break;
 
    case 5:
-      //g
+//g
       get_all_schools();
       break;
 
@@ -49,13 +49,28 @@ switch ($cmd) {
       break;
 
    case 7;
-      // get idcho from health promotion
+// get idcho from health promotion
       get_all_subjects();
       break;
 
 
    case 8;
       get_assignments_by_prof();
+      break;
+
+   case 9:
+      parent_login();
+      break;
+
+   case 10:
+      get_children();
+      break;
+
+   case 11:
+      get_assignment_tomorrow();
+      break;
+   case 12:
+      get_assignment_week();
       break;
 
    default:
@@ -66,8 +81,165 @@ switch ($cmd) {
       echo "}";
 }
 
+function get_assignment_week() {
+   include_once './classes/given_hw_class.php';
+   $pid = get_datan("pid");
+   $cid = get_datan("cid");
+   $date = get_data("date");
+
+   $hw_obj = new given_hw_class();
+//   print $date;
+   if ($hw_obj->get_details_w_parent_due_week($pid, $cid, $date)) {
+      $dataset_hw = $hw_obj->fetch();
+      if (!$dataset_hw) {
+
+         echo "{";
+         echo jsonn("result", 0) . ",";
+         echo jsons("message", "No hw found");
+         echo "}";
+         return;
+      } else {
+         echo "{";
+         echo jsonn("result", 1);
+         echo ',"message":';
+         echo "[";
+
+         while ($dataset_hw) {
+            echo "{";
+            echo jsons("subject", $dataset_hw["subject_name"]) . ",";
+            echo jsons("title", $dataset_hw["assignment_title"]) . ",";
+            echo jsons("due", $dataset_hw["date_due"]);
+            echo "}";
+
+            $dataset_hw = $hw_obj->fetch();
+            if ($dataset_hw) {
+               echo ",";
+            }
+         }
+         echo "]}";
+      }
+   }
+}
+
+function get_assignment_tomorrow() {
+   include_once './classes/given_hw_class.php';
+   $pid = get_datan("pid");
+   $cid = get_datan("cid");
+   $date = get_data("date");
+
+   $hw_obj = new given_hw_class();
+//   print $date;
+   if ($hw_obj->get_details_w_parent_due_tomorrow($pid, $cid, $date)) {
+      $dataset_hw = $hw_obj->fetch();
+      if (!$dataset_hw) {
+
+         echo "{";
+         echo jsonn("result", 0) . ",";
+         echo jsons("message", "No hw found");
+         echo "}";
+         return;
+      } else {
+         echo "{";
+         echo jsonn("result", 1);
+         echo ',"message":';
+         echo "[";
+
+         while ($dataset_hw) {
+            echo "{";
+            echo jsons("subject", $dataset_hw["subject_name"]) . ",";
+            echo jsons("title", $dataset_hw["assignment_title"]) . ",";
+            echo jsons("teacher_name", $dataset_hw["firstname"]. " ".  $dataset_hw["lastname"]) . ",";
+            echo jsons("due", $dataset_hw["date_due"]);
+            echo "}";
+
+            $dataset_hw = $hw_obj->fetch();
+            if ($dataset_hw) {
+               echo ",";
+            }
+         }
+         echo "]}";
+      }
+   }
+}
+
+function get_children() {
+   include_once '../hw_tracker_parent/classes/student_class.php';
+
+   $pid = get_datan("parent_id");
+
+   $children_obj = new student_class();
+   if (!$children_obj->get_children($pid)) {
+      echo "{";
+      echo jsonn("result", 0) . ",";
+      echo jsons("message", "No student found");
+      echo "}";
+      return;
+   }
+
+   $dataset_children = $children_obj->fetch();
+   if (!$dataset_children) {
+
+      echo "{";
+      echo jsonn("result", 0) . ",";
+      echo jsons("message", "No child found");
+      echo "}";
+      return;
+   } else {
+      echo "{";
+      echo jsonn("result", 1);
+      echo ',"message":';
+      echo "[";
+
+      while ($dataset_children) {
+         echo "{";
+         echo jsonn("id", $dataset_children["student_id"]) . ",";
+         echo jsons("firstname", $dataset_children["firstname"]) . ",";
+         echo jsons("lastname", $dataset_children["lastname"]) . ",";
+         echo jsons("class_id", $dataset_children["class_id"]);
+         echo "}";
+
+         $dataset_children = $children_obj->fetch();
+         if ($dataset_children) {
+            echo ",";
+         }
+      }
+      echo "]}";
+   }
+}
+
+function parent_login() {
+
+   include_once '../hw_tracker_teacher/classes/given_hw_class.php';
+
+// get children (students) that belong to parent
+   if (isset($_REQUEST["pid"])) {
+      $pid = ($_REQUEST["pid"]);
+
+      $children_obj = new student_class();
+      if ($children_obj->get_children($pid)) {
+         $dataset_children = $children_obj->fetch();
+//      print_r($dataset_children);
+         while ($dataset_children) {
+            print $dataset_children["student_id"];
+            print "#";
+            print $dataset_children["firstname"] . " " . $dataset_children["lastname"];
+//         print "#";
+//         print $dataset_children["school_school_id"];
+            print "#";
+            print $dataset_children["class_id"];
+            print "#,";
+//         print $dataset_children["firstname"] . " " . $dataset_children["lastname"];
+//         print "here";
+            $dataset_children = $children_obj->fetch();
+         }
+      } else {
+         print false;
+      }
+   }
+}
+
 function get_assignments_by_prof() {
-   include_once '../hw_tracker/classes/given_hw_class.php';
+   include_once '../hw_tracker_teacher/classes/given_hw_class.php';
 
    $prof_id = get_datan("prof_id");
 
@@ -147,7 +319,7 @@ function addassignment() {
 }
 
 function get_all_subjects() {
-   include_once '../hw_tracker/classes/subject_class.php';
+   include_once '../hw_tracker_teacher/classes/subject_class.php';
 
    $schools_obj = new subject_class();
    if (!$schools_obj->get_all_details()) {
@@ -188,7 +360,7 @@ function get_all_subjects() {
 }
 
 function get_all_classes() {
-   include_once '../hw_tracker/classes/class_class.php';
+   include_once '../hw_tracker_teacher/classes/class_class.php';
 
    $schools_obj = new class_class();
    if (!$schools_obj->get_all_details()) {
@@ -240,7 +412,12 @@ function send_message() {
            . "&RegisteredDelivery=true";
 // Fire the request and wait for the response
    $response = file_get_contents($url);
-   var_dump($response);
+   print($response);
+//   echo "{";
+//   echo jsonn("result", 1) . ",";
+//   echo jsons("message sent", "d1d");
+//   echo "}";
+//   return;
 }
 
 function get_all_schools() {
@@ -248,14 +425,16 @@ function get_all_schools() {
 //   $_SESSION['paid']=0;
 
 
-   include_once '../hw_tracker/classes/school_class.php';
+   include_once '../hw_tracker_teacher/classes/school_class.php';
+
+   $teacher_id = get_datan("teacher_id");
 
    $schools_obj = new school_class();
-   if (!$schools_obj->get_all_details()) {
+   if (!$schools_obj->get_all_sch_teacher_teaches($teacher_id)) {
 
       echo "{";
       echo jsonn("result", 0) . ",";
-      echo jsons("schools", "No school found1d");
+      echo jsons("schools", "No school found");
       echo "}";
       return;
    }
@@ -373,7 +552,7 @@ function transact() {
 }
 
 function login() {
-   include_once './classes/teacher_login_class.php';
+   include_once './classes/parent_login_class.php';
 //   include_once './details_class.php';
 //   $details_obj = new deatils_class();
 //   if (!$details_obj->get_all_details()) {
@@ -384,8 +563,8 @@ function login() {
 //   session_start();
    $user = get_data('user');
    $pass = get_data('pass');
-   $p = new teacher_login_class();
-   $val = $p->loginAsTeach($user, $pass);
+   $p = new parent_login_class();
+   $val = $p->loginAsParent($user, $pass);
 //   $row = 0;
    if ($val) {
       $row = $p->loadProfile($user);
@@ -394,7 +573,7 @@ function login() {
          echo jsonn("result", 1);
          echo ',"user":';
          echo "{";
-         echo jsons("id", $row["teacher_id"]) . ",";
+         echo jsons("id", $row["parent_id"]) . ",";
          echo jsons("username", $row["username"]) . ",";
          echo jsons("firstname", $row["firstname"]) . ",";
          echo jsons("lastname", $row["lastname"]);
@@ -493,21 +672,23 @@ function diver_update_bus_location() {
    echo "}";
 }
 
-function get_bus_loca() {
-   include_once './details_class.php';
-   $det = new deatils_class();
-   if (!$det->get_all_details()) {
+function check_already_registered() {
+
+   include_once './classes/parent_class.php';
+   $pid = get_data("parent_id");
+
+   $det = new parent_class();
+   if (!$det->check_already_registered($pid)) {
       echo "{";
       echo jsonn("result", 0) . ",";
-      echo jsons("message", "error, Unsuccesful");
+      echo jsons("message", "Not registered");
       echo "}";
       return;
    }
    $row = $det->fetch();
    echo "{";
    echo jsonn("result", 1) . ",";
-   echo jsons("x", $row['longitude']) . ",";
-   echo jsons("y", $row['latitude']);
+   echo jsons("message", "Already registered");
    echo "}";
    return;
 }
@@ -538,10 +719,25 @@ function increase() {
    echo "}";
 }
 
-function decrease() {
-   session_start();
-//   $_SESSION['paid']=0;
+function register() {
 
+   $pid = get_datan("parent_id");
+   $user = get_data("username");
+   $password = get_data("password");
 
-   $last_inserted_id = $_SESSION['last_insert_id'];
+   include_once './classes/parent_class.php';
+   $par = new parent_class();
+   if (!$par->register($user, $password, $pid)) {
+      echo "{";
+      echo jsonn("result", 0) . ",";
+      echo jsons("message", "Not registered");
+      echo "}";
+      return;
+   }
+//   $row = $par->fetch();
+   echo "{";
+   echo jsonn("result", 1) . ",";
+   echo jsons("message", "Registered successfully");
+   echo "}";
+//   return;
 }

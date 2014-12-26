@@ -13,9 +13,9 @@ include_once("adb.php");
  *
  * @author Kc
  */
-class deatils_class extends adb {
+class parent_class extends adb {
 
-   function deatils_class() {
+   function parent_class() {
       adb::adb();
    }
 
@@ -23,20 +23,27 @@ class deatils_class extends adb {
     * query all religion in the table and store the dataset in $this->result	
     * @return if successful true else false
     */
-   function get_all_details() {
-      $query = "select * from mw_info";
-      $res = $this->query($query);
-//        print("--------------------------------------------------------------------------------");
-//        print($res);
-      return $res;
+   function check_already_registered($pid) {
+      $query = "SELECT COUNT( * ) AS c FROM mw_hw_tracker_parent WHERE parent_id = '$pid' AND LENGTH( username ) > 0";   
+//                      print($query);
+      $this->query($query);
+      $result = $this->fetch();
+      if ($result['c'] > 0) {
+         return true;
+      } else {
+         return false;
+      }
    }
 
    /**
     * query a vaccines in the table and store the dataset in $this->result	
     * @return if successful true else false
     */
-   function get_details($detail_id) {
-      $query = "select * from mw_info where info_id = $detail_id";
+   function register($username, $password, $pid) {
+      $query = "update mw_hw_tracker_parent set username = '$username', password = $password where parent_id = $pid";
+   
+//      print($query);
+      
       $res = $this->query($query);
 //        print("--------------------------------------------------------------------------------");
 //        print($res);

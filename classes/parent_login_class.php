@@ -8,36 +8,65 @@
 
 include_once("adb.php");
 
-class school_class extends adb {
+class parent_login_class extends adb {
 
-   function school_class() {
+   function parent_login_class() {
       adb::adb();
    }
+   
+   function acutalassignment($ass){
+      $query = "insert into mw_hw_tracker_assignment(assignment_title, date_modified, date_created) values(\"$ass\", now(), now())";
+//      print $query;
+      return $this->query($query);
+              
+   }
+   
+   function addassignment($date_due, $teacher_id, $school_id, $class_id, $subject_id, $assignment_id){
+      $query = "Insert into mw_hw_tracker_given_hw(date_assigned, date_due, teacher_teacher_id, school_school_id, class_class_id, subject_subject_id, assignment_assignment_id, date_created, date_modified) values(now(), '$date_due', $teacher_id, $school_id, $class_id, $subject_id, $assignment_id, now(), now())";   
+//                      print($query);
+      return $this->query($query);
+   }
+   
+   function loginAsParent($username, $password) {
+      $query = "Select count(*) as c from mw_hw_tracker_parent where username= '$username' and password = '$password' ";   
+//                      print($query);
+      $this->query($query);
+      $result = $this->fetch();
+      if ($result['c'] > 0) {
+         return true;
+      } else {
+         return false;
+      }
+   }
 
+   function loadProfile($username) {
+      //load username and other informaiton into the session      
+      $query = "select * from mw_hw_tracker_parent where username = '$username';";
+      
+      $this->query($query);
+
+      $result = $this->fetch();
+      session_start();
+      
+      $_SESSION['username'] = $username;
+//      print $result;
+      return $result;
+
+   }
+   
    /**
     * query all religion in the table and store the dataset in $this->result	
     * @return if successful true else false
     */
-   function get_all_sch_teacher_teaches($teacher_id) {
-      $query = "select * from mw_hw_tracker_teach_has_sch left join mw_hw_tracker_teacher on mw_hw_tracker_teach_has_sch.teacher_id = mw_hw_tracker_teacher.teacher_id left join mw_hw_tracker_school on mw_hw_tracker_teach_has_sch.school_id = mw_hw_tracker_school.school_id where mw_hw_tracker_teacher.teacher_id = $teacher_id";
-      
-//       print("--------------------------------------------------------------------------------". $query);
-      
-      $res = $this->query($query);
-//       
-//        print($res);
-      return $res;
-   }
-
-   
    function get_all_details() {
-      $query = "select * from mw_hw_tracker_school";
+      $query = "select * from mw_hw_tracker_student";
       $res = $this->query($query);
 //        print("--------------------------------------------------------------------------------");
 //        print($res);
       return $res;
    }
 
+   
    
    /**
     * get the children (students) of this parent

@@ -6,25 +6,23 @@ var global_drop_off = 0;
 //      $_SESSION['amount_left'] = $result['amount_left'];
 //      $_SESSION['id'] = $result['user_id'];
 
-var user_id = 0;
+//var user_id = 0;
 var user_name = 0;
-var user_role_id = 0;
-var amount_left = 0;
-//      alert(amount_left);
+var class_id_glob = 0;
 
+var phonegap = "https://50.63.128.135/~csashesi/class2015/kingston-coker/mobile_web/hw_tracker_parent/";
+//var phonegap = "";
 
-var seats_left = 0;
-var res_seats = 0;
-var pass_on_bus = 0;
-var num_of_seats = 0;
+//$(document).ready(function () {
+// 
+//});
 
-$(document).ready(function () {
-//   var amount_left = $('#amount_left').text();
-//   alert(amount_left);
-//   login();
-});
+//$(document).on('pagebeforeshow', '#hw_page', function () {
+//   $("#panel_days").panel("open");
+//
+//});
 
-
+//debugger;
 function syncAjax(u) {
    var obj = $.ajax({url: u, async: false});
    return $.parseJSON(obj.responseText);
@@ -35,6 +33,82 @@ var class_id;
 var subject_id;
 
 var id = 0;
+
+function register() {
+   var pass1 = document.getElementById("password1").value;
+   var pass2 = document.getElementById("password2").value;
+
+   if (pass1 !== pass2) {
+      alert("Your passwords don't match. Please try again");
+      return;
+   }
+
+   var pid = document.getElementById("pid").value;
+
+   var username = document.getElementById("reg_username").value;
+//   var email = document.getElementById("email").value;
+   var pass = pass1;
+//   var org = document.getElementById("org").value;
+//   var phone_num = document.getElementById("phone").value;
+//   phone_num = phone_num.replace("+", "");
+//   if (phone_num.indexOf(0) === "0") {
+//      phone_num = phone_num.replace("+", "");
+//   }
+//
+//   if (fname.length === 0) {
+//      alert("Please enter your firstname");
+//      return;
+//   }
+//   else if (lname.length === 0) {
+//      alert("Please enter your lastname");
+//      return;
+//   }
+//   else 
+   if (username.length === 0) {
+      alert("Please enter a username");
+      return;
+   }
+   else if (pass.length === 0) {
+      alert("Please enter a password");
+      return;
+   }
+//   else if (org.length === 0) {
+//      alert("Please enter an organization");
+//      return;
+//   } else if (phone_num.length === 0) {
+//      alert("Please enter a phone number");
+//      return;
+//   }
+//
+//   var conf_num = Math.floor(Math.random() * 9000) + 1000;
+
+
+
+   var url = phonegap + "action_1.php?cmd=3&username=" + username + "&password=" + pass + "&parent_id=" + pid;
+
+//   prompt("url", url);
+
+   var r = syncAjax(url);
+   if (r.result === 1) {
+      alert(r.message + "\nPlease see the school for further assistance");
+      return;
+   }
+//   else if(r.result === 0){
+//      alert(r.message);
+//   }
+   var url2 = phonegap + "action_1.php?cmd=1&username=" + username + "&password=" + pass + "&parent_id=" + pid;
+
+//   prompt("url", url2);
+
+   var r2 = syncAjax(url2);
+   if (r2.result === 0) {
+      alert(r.message);
+      return;
+   }
+
+   window.open("index.html#login_page", "_self");
+}
+
 
 function publish_ass() {
 
@@ -93,17 +167,19 @@ function publish_ass() {
    // send message
 
    var u = "action_1.php?cmd=4" + "&date=" + date + "&teacher_id=" + id;
+//   prompt('urr', u);
    r = syncAjax(u);
 
-   if (r.result === 1) {
-      alert("Message send");
+   if (r.Rate === 1) {
+      alert("Message sent");
    }
    else {
-      alert("Could not send");
+      alert("Could not send message");
    }
 }
 
-function getFormattedDate(date) {
+function getFormattedDate(date1) {
+   var date = new Date(date1);
    var year = date.getFullYear();
    var month = (1 + date.getMonth()).toString();
    month = month.length > 1 ? month : '0' + month;
@@ -126,73 +202,18 @@ function login() {
 //   prompt("URL", u);
    r = syncAjax(u);
 
-//   prompt(r.user);
-
 //                alert(r.result);
    if (r.result === 1) {
       username = r.user.username;
       t_firstname = r.user.firstname;
       t_lastname = r.user.lastname;
       id = r.user.id;
-//      res_seats = r.user.res_seats;
-//      num_of_seats = r.user.num_of_seats;
-//      seats_left = r.user.seats_left;
-//      pass_on_bus = r.user.pass_on_bus;
-//      pass_on_bus = r.
+
       $(".user").text(t_firstname);
 
+      get_children();
 
-
-      var u = "action_1.php?cmd=5&getschools";
-//      prompt("URL", u);
-      schools = syncAjax(u);
-
-//      <input type="radio" name="radio-choice-2" class="school" id="radio-choice-21" value="1" checked="checked" />
-//                  <label for="radio-choice-21">Ghana I.S</label>
-      var sch = ["Ghana", "Tema", "James town"];
-//      console.log(schools.schools);
-
-      var ins = '<legend>Choose your school:</legend>';
-      $.each(schools.schools, function (key, elem) {
-//         console.log(elem.id);
-         ins += '<label for="radio-choice-2' + elem.id + '" class="ui-btn ui-corner-all ui-btn-inherit ui-btn-icon-left ui-first-child ui-radio-on">' + elem.school_name + '</label><input type="radio" name="radio-choice-2" class="school" id="radio-choice-2' + elem.id + '" value="' + elem.id + '" checked="checked" data-cacheval="false">';
-
-      });
-      $('#schoolList fieldset').html(ins);
-
-
-// classes
-
-      var u1 = "action_1.php?cmd=6";
-//      prompt("URL", u1);
-      classes = syncAjax(u1);
-
-//      console.log(classes.classes);
-
-      var ins2 = '<legend>Select your class:</legend>';
-      $.each(classes.classes, function (key, elem) {
-//         console.log(elem.id);
-         ins2 += '<label for="radio-choice-3' + elem.id + '" class="ui-btn ui-corner-all ui-btn-inherit ui-btn-icon-left ui-radio-on ui-first-child">' + elem.class_number + '</label><input type="radio" name="radio-choice-3" id="radio-choice-3' + elem.id + '" value="' + elem.id + '" checked="checked">';
-
-      });
-      $('#classList fieldset').html(ins2);
-
-      // subjects
-      var u2 = "action_1.php?cmd=7";
-//      prompt("URL", u2);
-      subject = syncAjax(u2);
-
-//      console.log(subject.subjects);
-
-      var ins3 = '<legend>Select your class:</legend>';
-      $.each(subject.subjects, function (key, elem) {
-//         console.log(elem.id);
-         ins3 += '<label for="radio-choice-4' + elem.id + '" class="ui-btn ui-corner-all ui-btn-inherit ui-btn-icon-left ui-radio-on ui-first-child">' + elem.subject_name + '</label><input type="radio" name="radio-choice-4" id="radio-choice-4' + elem.id + '" value="' + elem.id + '" checked="checked">';
-
-      });
-      $('#subjectList fieldset').html(ins3);
-
-      window.open("main_hwtracker_mobile.html#home", "_self");
+      window.open("index.html#children_page", "_self");
    }
    else {
       alert("username or password wrong");
@@ -201,52 +222,149 @@ function login() {
 }
 
 
-function get_assignments2() {
-//debugger;
-   var url = "action_1.php?cmd=8&prof_id=" + 1;
+var classid = 0;
+function get_children() {
+
+   var url = phonegap + "action_1.php?cmd=10&parent_id=" + id;
 
 //   prompt("url", url);
-   assigns2 = syncAjax(url);
+   children = syncAjax(url);
 
-   if (assigns2.result === 1) {
+   if (children.result === 1) {
 //      console.log(assigns);
-      ins5 = "";
-//      $.each(assigns.assignments, function (key, elem) {
-//
-////         console.log(elem.actual_assignment);
+      var ins4 = "";
+      var ins5 = "";
+      $.each(children.message, function (key, elem) {
+
+//         console.log(elem.actual_assignment);
 //         var actual = elem.actual_assignment;
-//
+
 //         actual = actual.replace(/["']/g, "!apostrophe!");
 
-         ins5 += '<div data-role="collapsible" class="ui-collapsible ui-collapsible-inset ui-corner-all ui-collapsible-themed-content ui-first-child ui-last-child ui-collapsible-collapsed"><h1 class="ui-collapsible-heading ui-collapsible-heading-collapsed"><a href="#" class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-left ui-btn-inherit ui-icon-plus">Subject - Form - Date<span class="ui-collapsible-heading-status"> click to expand contents</span></a></h1><div class="ui-collapsible-content ui-body-inherit ui-collapsible-content-collapsed" aria-hidden="true"><p>Content</p></div></div>';
-//      });
-      $('#ass_list2').html(ins5);
+         classid = elem.class_id;
+
+//         onclick="get_hw_today(' + "'" + elem.class_id + "'" + ')"
+
+         ins4 += '<li class="ui-first-child ui-last-child"><a href="#" onclick="get_hw_today(' + "'" + elem.class_id + "'" + ')" class="ui-btn ui-btn-icon-right ui-icon-carat-r ui-last-child">' + elem.firstname + "     " + elem.lastname + '</a></li>';
+
+//         ins5 += "<div data-role='collapsible' id='set" + 1 + "'><h3>Section " + elem.firstname + "     " + elem.lastname + "</h3><p onclick='get_hw_today(" + elem.class_id + ")'>" + elem.firstname + " " + elem.lastname + "</p></div>";
+
+//         $(document).on("pageinit", function () {
+//            var nextId = 1;
+//            $("#add").click(function () {
+//               nextId++;
+//               var content = "<div data-role='collapsible' id='set" + nextId + "'><h3>Section " + nextId + "</h3><p>I am the collapsible content in a set so this feels like an accordion. I am hidden by default because I have the 'collapsed' state; you need to expand the header to see me.</p></div>";
+//               $("#set").append(content).collapsibleset('refresh');
+//            });
+//            $("#expand").click(function () {
+//               $("#set").children(":last").trigger("expand");
+//            });
+//            $("#collapse").click(function () {
+//               $("#set").children(":last").trigger("collapse");
+//            });
+//         });
+
+      });
+
+
+      $('#children_list').html(ins4);
+//      window.open("index.html", "_self");
+
+//      $('#set').html(ins5);
+
    }
+
+   else {
+      alert("Please login");
+      window.open("index.html", "_self");
+   }
+}
+
+function get_hw_today(classid) {
+   class_id_glob = classid;
+//  debugger ;
+   window.open("index.html#hw_page", "_self");
+
+   var date = new Date();
+
+//
+   var url = phonegap + "action_1.php?cmd=11&pid=" + id + "&cid=" + classid + "&date=" + getFormattedDate(date);
+
+//   prompt("url", url);
+   var assignment = syncAjax(url);
+
+   injector(assignment);
+
+
+}
+
+
+function injector(assignment) {
+   if (assignment.result === 1) {
+//      console.log(assigns);
+//      var ins4 = "";
+      var ins5 = "";
+      $.each(assignment.message, function (key, elem) {
+
+
+         ins5 += "<div data-role='collapsible' id='set" + 1 + "'><h3>" + elem.subject + "</h3><p> Assignment: " + elem.title + "<br> Due: " + getFormattedDate(elem.due) + "<br> Teacher: " + elem.teacher_name + "</p></div>";
+      });
+//      $('#hw_list').html(ins4);
+
+      $('#set').html(ins5);
+
+
+//      debugger;
+
+//$("#panel_days").panel("open");
+
+      $('#set').collapsibleset('refresh');
+   }
+}
+
+function get_hw_details(text) {
+   alert(text);
+}
+
+function get_hw_week(classid) {
+   class_id_glob = classid;
+//  debugger ;
+   window.open("index.html#hw_page", "_self");
+
+
+//   $(document).on('pagebeforeshow', '#hw_page', function () {
+
+//});
+//   debugger
+   var date = new Date();
+
+//
+   var url = phonegap + "action_1.php?cmd=12&pid=" + id + "&cid=" + classid + "&date=" + getFormattedDate(date);
+
+//   prompt("url", url);
+   var assignment = syncAjax(url);
+
+   injector(assignment);
 }
 
 
 
-function get_assignments() {
+//$("#id").attr("onclick","new_function_name()");
 
-   var url = "action_1.php?cmd=8&prof_id=" + id;
+function get_hw_week_trig() {
+   $("#hw_time_span").val("Homework within a week");
+   get_hw_week(class_id_glob);
+}
 
-//   prompt("url", url);
-   assigns = syncAjax(url);
+function get_hw_today_trig() {
+//   debugger;
+   $("#hw_time_span").val("Homework Due Tomorrow");
+   get_hw_today(class_id_glob);
 
-   if (assigns.result === 1) {
-//      console.log(assigns);
-      ins4 = "";
-      $.each(assigns.assignments, function (key, elem) {
+}
 
-//         console.log(elem.actual_assignment);
-         var actual = elem.actual_assignment;
-
-         actual = actual.replace(/["']/g, "!apostrophe!");
-
-         ins4 += '<li class="ui-first-child ui-last-child"><a href="#" onclick="popUp(' + "'" + actual + "'" + ')" class="ui-btn ui-btn-icon-right ui-icon-carat-r ui-last-child">' + elem.subject + " - " + elem.class + " - " + elem.due.substring(0, 10) + '</a></li>';
-      });
-      $('#assignments').html(ins4);
-   }
+function get_hw() {
+   alert("Please click on a child to get details");
 }
 
 function popUp(text) {
@@ -264,193 +382,3 @@ function qrgenerate(rand) {
       text: rand.toString()
    });
 }
-
-function payment() {
-
-//   alert("here");
-//   $("#status").text("NOT PAID");
-   var fare = $("#fare").val();
-   var amount_before = amount_left;
-   if (amount_before - $("#fare").val() >= 0) {
-      var new_amount = amount_before - $("#fare").val();
-
-      var ticket = Math.floor((Math.random() * 1000) + 1);
-//      alert(ticket);
-
-      var url = "login_mobile_action_1.php?cmd=3&user_id=" + user_id + "&new_amount=" + new_amount + "&amount_before=" + amount_before + "&fare=" + $("#fare").val() + "&ticket_num=" + ticket + "&location=" + global_drop_off;
-      prompt("url", url);
-      r = syncAjax(url);
-//      prompt("url", r.result);
-      if (r.result === 1) { // signifies update
-         alert("Your ticket is available in another tab. Go to payment to view");
-//         $("#status").text("PAID");
-//         qrgenerate(ticket);
-         window.open("mobile_and_passenger.php#view_payment", "_self");
-         window.location.reload();
-//         window.open("mobile_and_passenger.php#view_payment", "_self");
-
-//         window.reload("mobile_and_passenger.php#view_payment");
-//         window.location.href="mobile_and_passenger.php#view_payment";
-         global_drop_off = 0;
-      }
-      else if (r.result === 0 && r.trans.message === "Already Reserved") {
-         alert("You have " + r.trans.message);
-//         alert(r.trans.ticket_num);
-//         $("#status").text("PAID");
-//         qrgenerate(r.trans.ticket_num);
-         window.open("mobile_and_passenger.php#view_payment", "_self");
-//         global_drop_off = 0;
-      }
-      else {
-         alert(r.trans.message);
-         alert("unsuccessful");
-         global_drop_off = 0;
-         return;
-      }
-   }
-   else {
-      alert("unsuccessful, not enough funds, you broke");
-      global_drop_off = 0;
-   }
-}
-
-var x = document.getElementById("demo");
-
-function getLocation() {
-//   console.log("called");
-   if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(showPosition, showError);
-   } else {
-      x.innerHTML = "Geolocation is not supported by this browser.";
-   }
-}
-
-function getLocationBus() {
-//   console.log("called");
-//   if (navigator.geolocation) {
-   navigator.geolocation.getCurrentPosition(showPositionBus, showError);
-//   } else {
-//      x.innerHTML = "Geolocation is not supported by this browser.";
-//   }
-}
-
-function showPositionBus(position) {
-
-   var url = "login_mobile_action_1.php?cmd=5";
-//      prompt("url", url);
-   r = syncAjax(url);
-
-   if (r.result === 0) {
-      alert(r.message);
-      return;
-   }
-
-   var a = r.x;
-   var b = r.y;
-
-//   alert (a);
-
-   x.innerHTML = "Latitude: " + b +
-           "<br>Longitude: " + a;
-
-   showBus(a, b);
-
-}
-var gloA = 0;
-var gloB = 0;
-function showBus(a, b) {
-//   debugger;
-   gloA = a;
-   gloB = b;
-   window.open("map.php", "_self");
-   /*
-    * Google Maps documentation: http://code.google.com/apis/maps/documentation/javascript/basics.html
-    * Geolocation documentation: http://dev.w3.org/geo/api/spec-source.html
-    */
-
-}
-
-function showPosition(position) {
-
-   x.innerHTML = "Latitude: " + position.coords.latitude +
-           "<br>Longitude: " + position.coords.longitude;
-
-//           update database
-   var url = "login_mobile_action_1.php?cmd=4&long=" + position.coords.longitude + "&lat=" + position.coords.latitude;
-//      prompt("url", url);
-   r = syncAjax(url);
-
-   if (r.result === 0) {
-      alert(r.message);
-   }
-
-
-
-   var latlon = position.coords.latitude + "," + position.coords.longitude;
-
-   var img_url = "http://maps.googleapis.com/maps/api/staticmap?center="
-           + latlon + "&zoom=14&size=400x300&sensor=false";
-   document.getElementById("mapholder").innerHTML = "<img src='" + img_url + "'>";
-}
-
-function showError(error) {
-   switch (error.code) {
-      case error.PERMISSION_DENIED:
-         x.innerHTML = "User denied the request for Geolocation.";
-         break;
-      case error.POSITION_UNAVAILABLE:
-         x.innerHTML = "Location information is unavailable.";
-         break;
-      case error.TIMEOUT:
-         x.innerHTML = "The request to get user location timed out.";
-         break;
-      case error.UNKNOWN_ERROR:
-         x.innerHTML = "An unknown error occurred.";
-         break;
-   }
-}
-
-function callEveryHour() {
-//   setTimeout(getLocation, 5000);
-//   setInterval(getLocation(), 5000);
-   getLocation();
-//   console.log("called");
-//   alert("called");
-}
-
-
-
-$(document).on("pagecreate", "#map-page", function () {
-   var defaultLatLng = new google.maps.LatLng(gloA, gloB);  // Default to Hollywood, CA when no geolocation support
-//   debugger;
-   if (navigator.geolocation) {
-
-      function success(pos) {
-         // Location found, show map with these coordinates
-         drawMap(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
-//            alert(b);
-      }
-      function fail(error) {
-         drawMap(defaultLatLng);  // Failed to find location, show default map
-      }
-      // Find the users current position.  Cache the location for 5 minutes, timeout after 6 seconds
-      navigator.geolocation.getCurrentPosition(success, fail, {maximumAge: 500000, enableHighAccuracy: true, timeout: 6000});
-   } else {
-      drawMap(defaultLatLng);  // No geolocation support, show default map
-   }
-   function drawMap(latlng) {
-
-      var myOptions = {
-         zoom: 16,
-         center: latlng,
-         mapTypeId: google.maps.MapTypeId.ROADMAP
-      };
-      var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
-      // Add an overlay to the map of current lat/lng
-      var marker = new google.maps.Marker({
-         position: latlng,
-         map: map,
-         title: "Bus is here!"
-      });
-   }
-});

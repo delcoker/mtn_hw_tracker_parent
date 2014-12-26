@@ -2,136 +2,314 @@
 <html>
    <head>
       <title></title>
+      <meta name="viewport" content="width-device-width, initial-scale=1">
       <script src="js/jquery-1.11.1.min.js"></script>
       <link rel="stylesheet" href="css/jquery.mobile-1.4.4.css">
       <script src="js/jquery.mobile-1.4.4.min.js"></script>
       <link rel="stylesheet" href="css/delcss.css">
       <link rel="stylesheet" href="css/images/ajax-loader.gif">
       <script src="js/methods.js"></script>
-      <meta name="viewport" content="width-device-width, initial-scale=1">
+
    </head>
    <body>
       <!-------------------------------------------------------->
       <div data-role="page" id="pageone" data-theme="b">
          <div data-role="header">
-            <h1>Login</h1>
+            <h1> Parent Login</h1>
          </div>
          <!-------------------------------------------------------->
          <div role="main" class="ui-content">
-            <p>Please Login</p>
-
+            <p> Please Login</p>
+            <!--<fieldset data-role="controlgroup">-->
             <div data-role="fieldcontain">
-               <label for="username">Username:</label>
+
+               <label for="username"> Username:</label>
                <input type="text" name="username" id="username" placeholder="teacher name">
                <div> &nbsp; </div>
-               <label for="password">Password:</label>
+               <label for="password"> Password:</label>
                <input type="password" name="password" id="password" placeholder="* * * * * * * * * *">
                <div> &nbsp; </div><label></label>
 
                <input type="submit" id="login" value="Login" onclick="login()">
                <div> &nbsp; </div><label></label>
-               <a href="#" data-transition="slidedown">Forgotten Password?</a>
+               <a class="lnk" href="#" data-transition="slidedown"> Forgotten Password?</a>
+               <div> &nbsp; </div><label></label>
+               <a class="lnk" href="#register_page" data-transition="slidedown"> Register?</a>
+
             </div>
+            <!--</fieldset>-->
             <!--</form>-->
          </div>
          <!-------------------------------------------------------->
          <div data-role="footer">
-            <h1>Del Works</h1>
+            <h1> Del Works</h1>
          </div>
          <!--<a href="#pageone" data-transition="pop">Slide to Page</a>-->
       </div>
       <!----------------------------------------------------------------------------------------------------------------->
-      <div data-role="page" id="home" data-theme="b">
-
+      <!--      <div data-role="page" id="home" data-theme="b">
+      
+               <div data-role="header">
+                  <h1>Home</h1>
+                  <a href="#pageone" data-role="button" data-icon="" data-iconpos="right" class="ui-btn-left">Hi there <div id="user" class="user"></div></a>
+                  <a href="#pageone" data-role="button" data-icon="arrow-u" data-iconpos="right" class="ui-btn-right"  onclick="logout()">Logout</a>
+                  <div data-role="navbar"> 
+                     <ul>
+                        <li><a href="#home" data-icon="home" data-iconpos="left" class="ui-btn-active ui-state-persist" data-transition="slideup">Home</a></li>
+                        <li><a href="#homeworks" data-icon="arrow-d" data-iconpos="left" data-transition="pop" onclick='get_assignments()'>View HWs</a></li>
+                     </ul>
+                  </div>
+                  classs="ui-btn-active ui-state-persist"
+               </div>
+               -------------------------------------------------------
+               <div role="main" class="ui-content">
+                  <h1>Add An Assignment</h1>
+      
+                  <div data-role="fieldcontain" id="schoolList">
+                     <fieldset data-role="controlgroup">
+                        <legend >Choose your school:</legend>
+                        <input type="radio" name="radio-choice-2" class="school" id="radio-choice-21" value="1" checked="checked" />
+                        <label for="radio-choice-21">Ghana I.S</label>
+                     </fieldset>
+                  </div>
+      
+                  <div data-role="fieldcontain" id="classList">
+                     <fieldset data-role="controlgroup">
+                        <legend>Select Class:</legend>
+                        <input type="radio" name="radio-choice-3" id="radio-choice-26" value="7" checked="checked" />
+                        <label for="radio-choice-26">Form 1</label>
+      
+                        <input type="radio" name="radio-choice-3" id="radio-choice-27" value="8"  />
+                     </fieldset>
+                  </div>
+      
+                  <div data-role="fieldcontain" id="subjectList">
+                     <fieldset data-role="controlgroup">
+                        <legend>Select Subject:</legend>
+                        <input type="radio" name="radio-choice-4" id="radio-choice-32" value="1" checked="checked" />
+                        <label for="radio-choice-32">Math</label>
+      
+                        <input type="radio" name="radio-choice-4" id="radio-choice-33" value="2"  />
+                     </fieldset>
+                  </div>
+      
+                  <h3>Set Date Due:</h3>
+                  <input id="due_date" type="date">
+      
+                  <h4>Assignment:</h4>
+                  <textarea id="actual_ass" placeholder="Do your midsem within 3 days even though I know you won't finish"></textarea>
+      
+      
+                  <button onclick="publish_ass()">Submit</button>
+               </div>
+               ---------------------------------------------------------
+               <div data-role="footer">
+                  <div data-role="controlgroup" data-type="horizontal">
+                     <Caption of group:</p>
+                     <a href="#" data-icon="arrow-l"  data-role="button" data-rel="back">Go Back</a>
+                  </div>
+               </div>
+            </div>-->
+      <!----------------------------------------------------------------------------------------------------------------->
+      <!--      <div data-role="page" id="homeworks" data-theme="b">
+               <div data-role="header">
+                  <h1>Views</h1>
+                  <a href="#pageone" data-role="button" data-icon="" data-iconpos="right" class="ui-btn-left">Hi there <div class="user"></div></a>
+                  <a href="#pageone" data-role="button" data-icon="arrow-u" data-iconpos="right" class="ui-btn-right"  onclick="logout()">Logout</a>
+                  <div data-role="navbar"> 
+                     <ul>
+                        <li><a href="#home" data-icon="home" data-iconpos="left" data-transition="slideup">Home</a></li>
+                        <li><a href="#homeworks" data-icon="arrow-d" data-iconpos="left" data-transition="pop"  class="ui-btn-active ui-state-persist" onclick='get_assignments2()' >View HWs</a></li>
+      
+                     </ul>
+                  </div>
+                  classs="ui-btn-active ui-state-persist"
+               </div>
+               -------------------------------------------------------
+               <div role="main" class="ui-content">
+                  <h1>My Assignments</h1>
+      
+                  <div data-role="" id="ass_list">
+                     <fieldset data-role="controlgroup">
+                        <h4>Assignments:</h4>
+                        <ol data-role="listview" data-inset="true" data-filter="true" id="assignments">
+                           <li>
+                              <a href='#' onclick='get_assignments()'>;</a>
+      
+                           </li>
+                        </ol>
+                     </fieldset>
+                  </div>
+      
+      
+               </div>
+               ---------------------------------------------------------
+               <div data-role="footer">
+                  <div data-role="controlgroup" data-type="horizontal">
+                     <Caption of group:</p>
+                     <a href="#" data-icon="arrow-l"  data-role="button" data-rel="back">Go Back</a>
+                  </div>
+               </div>
+            </div>-->
+      <!----------------------------------------------------------------------------------------------------------------->
+      <div data-role="page" id="register_page" data-theme="b">
          <div data-role="header">
-            <h1>Home</h1>
-            <a href="#pageone" data-role="button" data-icon="" data-iconpos="right" class="ui-btn-left">Hi there <div id="user" class="user"></div></a>
-            <a href="#pageone" data-role="button" data-icon="arrow-u" data-iconpos="right" class="ui-btn-right"  onclick="logout()">Logout</a>
+            <h1> Register</h1>
+            <a href="#pageone" data-role="button" data-icon="" data-iconpos="right" class="ui-btn-left">Hi there <div class="user"></div></a>
+            <!--            <a href="#pageone" data-role="button" data-icon="arrow-u" data-iconpos="right" class="ui-btn-right"  onclick="logout()">Logout</a>-->
             <div data-role="navbar"> 
                <ul>
-                  <li><a href="#home" data-icon="home" data-iconpos="left" class="ui-btn-active ui-state-persist" data-transition="slideup">Home</a></li>
-                  <li><a href="#reserve" data-icon="arrow-d" data-iconpos="left" data-transition="pop" >Reserve</a></li>
-                  <li><a href="#anylink" data-icon="search" data-iconpos="left" data-transition="slideup">Map</a></li>
+                  <li><a href="#register_page" data-icon="arrow-d" data-iconpos="left" data-transition="pop"  class="ui-btn-active ui-state-persist" > Register</a></li>
+
                </ul>
             </div>
             <!--classs="ui-btn-active ui-state-persist"-->
          </div>
          <!----------------------------------------------------------->
          <div role="main" class="ui-content">
-            <h1>Add An Assignment</h1>
+            <h1> Register</h1>
 
-            <div data-role="fieldcontain">
+            <div data-role="" id="reg"> 
+               <h4> Please Register:</h4 >
                <fieldset data-role="controlgroup">
-                  <legend>Choose your school:</legend>
-                  <input type="radio" name="radio-choice-2" class="school" id="radio-choice-21" value="1" checked="checked" />
-                  <label for="radio-choice-21">Ghana I.S</label>
 
-                  <input type="radio" name="radio-choice-2" class="school" id="radio-choice-22" value="2"  />
-                  <label for="radio-choice-22">Tema I.S</label>
+                  <div data-role="fieldcontain">
+                     <label for="pid"> Enter your PID:</label>
+                     <input type="text" name="pid" id="pid" placeholder="542">
+                     <div> &nbsp; </div>
 
-<!--                  <input type="radio" name="radio-choice-2" id="radio-choice-23" value="choice-3"  />
-                  <label for="radio-choice-23">Christ The King</label>
+                     <label for="reg_username"> Username:</label>
+                     <input type="text" name="reg_username" id="reg_username" placeholder="a random username">
+                     <div> &nbsp; </div>
 
-                  <input type="radio" name="radio-choice-2" id="radio-choice-24" value="choice-4"  />
-                  <label for="radio-choice-24">Presec</label>
-                  
-                  <input type="radio" name="radio-choice-2" id="radio-choice-25" value="choice-5"  />
-                  <label for="radio-choice-25">Ridge Church</label>-->
+                     <label for="password1"> Password:</label>
+                     <input type="password" name="password1" id="password1" placeholder="* * * * * * * * * *">
+                     <div> &nbsp; </div>
+
+                     <label for="password2"> Confirm Password:</label>
+                     <input type="password" name="password2" id="password2" placeholder="* * * * * * * * * *">
+                     <div> &nbsp; </div>
+
+                     <!--                     <label for="phone"> Phone Number:</label>
+                                          <input type="text" name="phone" id="phone" placeholder="233244813169">-->
+                     <div> &nbsp; </div><label></label>
+
+                     <input type="submit" id="register" value="Register" onclick="register()">
+                     <div> &nbsp; </div><label></label>
+                     <a class="lnk" href="index.html" data-transition="slideup"> Login</a>
+                  </div>
                </fieldset>
             </div>
-            
-            
-            <div data-role="fieldcontain">
+            <!--<button onclick="publish_ass()">Submit</button>-->
+         </div>
+         <!------------------------------------------------------------->
+         <div data-role="footer">
+            <div data-role="controlgroup" data-type="horizontal">
+               <!--<Caption of group:</p>-->
+               <a href="#" data-icon="arrow-l"  data-role="button" data-rel="back">Go Back</a>
+            </div>
+         </div>
+      </div>
+
+      <!----------------------------------------------------------------------------------------------------------------->
+      <div data-role="page" id="children_page" data-theme="b">
+         <div data-role="header">
+            <h1> Children</h1>
+            <a href="#" data-role="button" data-icon="" data-iconpos="right" class="ui-btn-left">Hi there <div class="user"></div></a>
+            <a href="#pageone" data-role="button" data-icon="arrow-u" data-iconpos="right" class="ui-btn-right"  onclick="logout()"> Logout</a>
+            <div data-role="navbar"> 
+               <ul>
+                  <li><a href="#children_page" id="add" data-icon="arrow-d" data-iconpos="left" data-transition="pop"  class="ui-btn-active ui-state-persist" onclick="get_children()"> Children</a></li>
+                  <!--<li><a href="#hw_page" data-icon="arrow-d" data-iconpos="left" data-transition="pop"  onclick="get_hw()"> HW</a></li>-->
+
+               </ul>
+            </div>
+         </div>
+         <!----------------------------------------------------------->
+         <div role="main" class="ui-content">
+            <h1> Confirmed Children</h1>
+
+            <div data-role="" id="all_children">
                <fieldset data-role="controlgroup">
-                  <legend>Select Class:</legend>
-                  <input type="radio" name="radio-choice-3" id="radio-choice-26" value="7" checked="checked" />
-                  <label for="radio-choice-26">Form 1</label>
+                  <h4> Children:</h4>
+                  <ol data-role="listview" data-inset="true" data-filter="true" id="children_list">
+                     <li>
+                        <a href='#' onclick='get_children()'> Child 1</a>
 
-                  <input type="radio" name="radio-choice-3" id="radio-choice-27" value="8"  />
-                  <label for="radio-choice-27">Form 2</label>
-
-                  <input type="radio" name="radio-choice-3" id="radio-choice-28" value="9"  />
-                  <label for="radio-choice-28">Form 3</label>
-
-                  <input type="radio" name="radio-choice-3" id="radio-choice-29" value="10"  />
-                  <label for="radio-choice-29">Form 4</label>
-                  
-                  <input type="radio" name="radio-choice-3" id="radio-choice-30" value="11"  />
-                  <label for="radio-choice-30">Form 5</label>
-                  
-                  <input type="radio" name="radio-choice-3" id="radio-choice-31" value="12"  />
-                  <label for="radio-choice-31">Lower 6</label>
+                     </li>
+                  </ol>
                </fieldset>
             </div>
-            
-            <div data-role="fieldcontain">
-               <fieldset data-role="controlgroup">
-                  <legend>Select Subject:</legend>
-                  <input type="radio" name="radio-choice-4" id="radio-choice-32" value="1" checked="checked" />
-                  <label for="radio-choice-32">Math</label>
 
-                  <input type="radio" name="radio-choice-4" id="radio-choice-33" value="2"  />
-                  <label for="radio-choice-33">Phy</label>
 
-                  <input type="radio" name="radio-choice-4" id="radio-choice-34" value="3"  />
-                  <label for="radio-choice-34">Chem</label>
-
-                  <input type="radio" name="radio-choice-4" id="radio-choice-35" value="4"  />
-                  <label for="radio-choice-35">Bio</label>
-                  
-                  <input type="radio" name="radio-choice-4" id="radio-choice-36" value="5"  />
-                  <label for="radio-choice-36">Geo</label>
-               </fieldset>
+            <!--<button onclick="publish_ass()">Submit</button>-->
+         </div>
+         <!------------------------------------------------------------->
+         <div data-role="footer">
+            <div data-role="controlgroup" data-type="horizontal">
+               <!--<Caption of group:</p>-->
+               <a href="#" data-icon="arrow-l"  data-role="button" data-rel="back">Go Back</a>
             </div>
-            
-            <h3>Set Date Due:</h3>
-            <input id="due_date" type="date">
-            
-            <h4>Assignment:</h4>
-            <textarea id="actual_ass" placeholder="Do your midsem within 3 days even though I know you won't finish"></textarea>
+         </div>
+      </div>
+      <!----------------------------------------------------------->
+      <div data-role="page" id="hw_page" data-theme="b">
+         <div data-role="panel" id="panel_days">
+            <ol data-role="list" >
+               <li>
+                  <a href='#' class="lnk" onclick='get_hw_today_trig()'> Due Tomorrow</a>
+               </li>
+               <li>
+                  <a href='#' class="lnk" onclick='get_hw_week_trig()'> Due Week</a>
+               </li>
+            </ol>
+         </div>
+         <div data-role="header">
+            <h1> Homework</h1>
+            <a href="#" data-role="button" data-icon="" data-iconpos="right" class="ui-btn-left">Hi there <div class="user"></div></a>
+            <a href="#pageone" data-role="button" data-icon="arrow-u" data-iconpos="right" class="ui-btn-right"  onclick="logout()"> Logout</a>
+            <div data-role="navbar"> 
+               <ul>
+                  <!--<li><a href="#children_page" data-icon="arrow-d" data-iconpos="left" data-transition="pop" onclick="get_children()"> Children</a></li>-->
+                  <li><a href="#hw_page"  data-icon="arrow-d" data-iconpos="left" data-transition="pop"  class="ui-btn-active ui-state-persist" onclick="get_hw()"> HW</a></li>
+
+               </ul>
+            </div>
+         </div>
+         <!----------------------------------------------------------->
+         <div role="main" class="ui-content" >
+            <h1 id="hw_time_span"> Homework Due Tomorrow</h1>
+
+            <a href="#panel_days" class="lnk" > Change Range</a>
+
+<!--            <div class="content-primary">
+               <fieldset data-role="controlgroup">
+                  <h4> Homework:</h4>
+                  <ol data-role="listview" data-inset="true" data-filter="true"  id="hw_list">
+                     <li>
+                        <a href='#' id="due_today" onclick='get_hw_today_trig()'> HW 1 - error - Please sign in</a>
+                     </li>
+                     <li>
+                        <a href='#' onclick='get_hw_week_trig()'> HW 2 - error - Please sign in</a>
+
+                     </li>
+                  </ol>
 
 
-            <button onclick="publish_ass()">Submit</button>
+               </fieldset>
+            </div>-->
+
+            <div data-role="collapsible-set" id="set">
+
+               <div data-role="collapsible" data-collapsed="true">
+                  <h3>Section 1</h3>
+                  <p>I'm the collapsible set content for section 1.</p>
+               </div>
+
+            </div>
+
+            <!--<div class="content-secondary">-->
+            <!--<button onclick="publish_ass()">Submit</button>-->
          </div>
          <!------------------------------------------------------------->
          <div data-role="footer">
