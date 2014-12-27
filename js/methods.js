@@ -140,7 +140,7 @@ function get_children() {
 
    var url = phonegap + "action_1.php?cmd=10&parent_id=" + id;
 
-   prompt("url", url);
+//   prompt("url", url);
    children = syncAjax(url);
 
    if (children.result === 1) {
