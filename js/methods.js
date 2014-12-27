@@ -108,7 +108,7 @@ function login() {
    var pass = document.getElementById("password").value;
 
    var u = "action_1.php?cmd=2&user=" + user + "&pass=" + pass;
-//   prompt("URL", u);
+   prompt("URL", u);
    var r = syncAjax(u);
 
 //                alert(r.result);
