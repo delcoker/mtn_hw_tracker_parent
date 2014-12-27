@@ -16,7 +16,7 @@ var phonegap = "https://50.63.128.135/~csashesi/class2015/kingston-coker/mobile_
 //$(document).ready(function () {
 // 
 //});
-
+ 
 //$(document).on('pagebeforeshow', '#hw_page', function () {
 //   $("#panel_days").panel("open");
 //
