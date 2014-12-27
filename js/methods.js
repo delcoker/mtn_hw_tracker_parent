@@ -10,8 +10,8 @@ var global_drop_off = 0;
 var user_name = 0;
 var class_id_glob = 0;
 
-//var phonegap = "https://50.63.128.135/~csashesi/class2015/kingston-coker/mobile_web/hw_tracker_parent/";
-var phonegap = "";
+var phonegap = "https://50.63.128.135/~csashesi/class2015/kingston-coker/mobile_web/hw_tracker_parent/";
+//var phonegap = "";
 
 //$(document).ready(function () {
 // 
