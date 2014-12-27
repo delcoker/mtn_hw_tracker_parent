@@ -16,7 +16,7 @@ var phonegap = "https://50.63.128.135/~csashesi/class2015/kingston-coker/mobile_
 //$(document).ready(function () {
 // 
 //});
- 
+
 //$(document).on('pagebeforeshow', '#hw_page', function () {
 //   $("#panel_days").panel("open");
 //
@@ -107,8 +107,8 @@ function login() {
    var user = document.getElementById("username").value;
    var pass = document.getElementById("password").value;
 
-   var u = "action_1.php?cmd=2&user=" + user + "&pass=" + pass;
-   prompt("URL", u);
+   var u = phonegap+"action_1.php?cmd=2&user=" + user + "&pass=" + pass;
+//   prompt("URL", u);
    var r = syncAjax(u);
 
 //                alert(r.result);
@@ -140,7 +140,7 @@ function get_children() {
 
    var url = phonegap + "action_1.php?cmd=10&parent_id=" + id;
 
-//   prompt("url", url);
+   prompt("url", url);
    children = syncAjax(url);
 
    if (children.result === 1) {
@@ -157,7 +157,7 @@ function get_children() {
 
 //         onclick="get_hw_today(' + "'" + elem.class_id + "'" + ')"
 
-         ins4 += '<li class="ui-first-child ui-last-child"><a href="#" onclick="get_hw_today(' + elem.class_id + "," + elem.id +')" class="ui-btn ui-btn-icon-right ui-icon-carat-r ui-last-child">' + elem.firstname + " " + elem.lastname + '</a></li>';
+         ins4 += '<li class="ui-first-child ui-last-child"><a href="#" onclick="get_hw_today(' + elem.class_id + "," + elem.id + ')" class="ui-btn ui-btn-icon-right ui-icon-carat-r ui-last-child">' + elem.firstname + " " + elem.lastname + '</a></li>';
 
 //         ins5 += "<div data-role='collapsible' id='set" + 1 + "'><h3>Section " + elem.firstname + "     " + elem.lastname + "</h3><p onclick='get_hw_today(" + elem.class_id + ")'>" + elem.firstname + " " + elem.lastname + "</p></div>";
 
@@ -194,7 +194,7 @@ function get_children() {
 
 function get_hw_today(classid, childid) {
    class_id_glob = classid;
-   child_id= childid;
+   child_id = childid;
 //  debugger ;
    window.open("index.html#hw_page", "_self");
 
@@ -218,7 +218,7 @@ function injector(assignment) {
       $.each(assignment.message, function (key, elem) {
 
 
-         ins5 += "<div data-role='collapsible' data-collapsed-icon='arrow-r' data-expanded-icon='arrow-d' id='set" + key + "'><h3>" + elem.subject + "</h3><p> Assignment: " + elem.title + "<br> Due: " + getFormattedDate(elem.due) + "<br> Teacher: " + elem.teacher_name + "<br><br><input onclick=sign_off(" + id + "," + child_id + ") type='checkbox' name='vehicle' value='Bike' id='sign_chk"+ key + "'> <br>Sign<br>" + "</p>" + "</div>";
+         ins5 += "<div data-role='collapsible' data-collapsed-icon='arrow-r' data-expanded-icon='arrow-d' id='set" + key + "'><h3>" + elem.subject + "</h3><p> Assignment: " + elem.title + "<br> Due: " + getFormattedDate(elem.due) + "<br> Teacher: " + elem.teacher_name + "<br><br><input onclick=sign_off(" + id + "," + child_id + ") type='checkbox' name='vehicle' value='Bike' id='sign_chk" + key + "'> <br>Sign<br>" + "</p>" + "</div>";
       });
 //      $('#hw_list').html(ins4);
 
@@ -233,7 +233,7 @@ function injector(assignment) {
    }
 }
 
-function sign_off(pid, childid){
+function sign_off(pid, childid) {
    alert("this assignemnt has been completed");
 }
 
