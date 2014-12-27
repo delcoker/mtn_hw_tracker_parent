@@ -10,8 +10,8 @@ var global_drop_off = 0;
 var user_name = 0;
 var class_id_glob = 0;
 
-var phonegap = "https://50.63.128.135/~csashesi/class2015/kingston-coker/mobile_web/hw_tracker_parent/";
-//var phonegap = "";
+//var phonegap = "https://50.63.128.135/~csashesi/class2015/kingston-coker/mobile_web/hw_tracker_parent/";
+var phonegap = "";
 
 //$(document).ready(function () {
 // 
@@ -48,22 +48,7 @@ function register() {
    var username = document.getElementById("reg_username").value;
 //   var email = document.getElementById("email").value;
    var pass = pass1;
-//   var org = document.getElementById("org").value;
-//   var phone_num = document.getElementById("phone").value;
-//   phone_num = phone_num.replace("+", "");
-//   if (phone_num.indexOf(0) === "0") {
-//      phone_num = phone_num.replace("+", "");
-//   }
-//
-//   if (fname.length === 0) {
-//      alert("Please enter your firstname");
-//      return;
-//   }
-//   else if (lname.length === 0) {
-//      alert("Please enter your lastname");
-//      return;
-//   }
-//   else 
+
    if (username.length === 0) {
       alert("Please enter a username");
       return;
@@ -72,30 +57,21 @@ function register() {
       alert("Please enter a password");
       return;
    }
-//   else if (org.length === 0) {
-//      alert("Please enter an organization");
-//      return;
-//   } else if (phone_num.length === 0) {
-//      alert("Please enter a phone number");
-//      return;
-//   }
-//
+
 //   var conf_num = Math.floor(Math.random() * 9000) + 1000;
-
-
 
    var url = phonegap + "action_1.php?cmd=3&username=" + username + "&password=" + pass + "&parent_id=" + pid;
 
 //   prompt("url", url);
 
+// if youve aleady registered
    var r = syncAjax(url);
    if (r.result === 1) {
       alert(r.message + "\nPlease see the school for further assistance");
+      window.open("index.html", "_self");
       return;
    }
-//   else if(r.result === 0){
-//      alert(r.message);
-//   }
+
    var url2 = phonegap + "action_1.php?cmd=1&username=" + username + "&password=" + pass + "&parent_id=" + pid;
 
 //   prompt("url", url2);
@@ -106,77 +82,10 @@ function register() {
       return;
    }
 
-   window.open("index.html#login_page", "_self");
+   alert("Successful, you may login now. Don't forget your password");
+   window.open("index.html", "_self");
 }
 
-
-function publish_ass() {
-
-   $(function () {
-      $("input[name*=radio-choice-2]:checked").each(function () {
-         school_id = $(this).val();
-//         alert("school " + school_id);
-      });
-   });
-
-   $(function () {
-      $("input[name*=radio-choice-3]:checked").each(function () {
-         class_id = $(this).val();
-//         alert("class " + class_id);
-      });
-   });
-
-   $(function () {
-      $("input[name*=radio-choice-4]:checked").each(function () {
-         subject_id = $(this).val();
-//         alert("subject " + subject_id);
-      });
-   });
-
-
-   var date1 = $("#due_date").val();
-   var date2 = new Date(date1);
-   var date = getFormattedDate(date2);
-
-   var ass = $("#actual_ass").val();
-
-//   alert(id);
-//   alert(ass);
-
-   if (date === null) {
-      alert("please select a data");
-      return;
-   }
-
-   var u = "action_1.php?cmd=3&school_id=" + school_id + "&class_id=" + class_id + "&subject_id=" + subject_id + "&date=" + date + "&teacher_id=" + id + "&ass=" + ass;
-
-//   prompt("URL", u);
-
-   r = syncAjax(u);
-
-   if (r.result === 1) {
-      alert("Added Assignment");
-   }
-   else {
-      alert("Could not add");
-      return;
-   }
-
-   // if it added 
-
-   // send message
-
-   var u = "action_1.php?cmd=4" + "&date=" + date + "&teacher_id=" + id;
-//   prompt('urr', u);
-   r = syncAjax(u);
-
-   if (r.Rate === 1) {
-      alert("Message sent");
-   }
-   else {
-      alert("Could not send message");
-   }
-}
 
 function getFormattedDate(date1) {
    var date = new Date(date1);
@@ -200,7 +109,7 @@ function login() {
 
    var u = "action_1.php?cmd=2&user=" + user + "&pass=" + pass;
 //   prompt("URL", u);
-   r = syncAjax(u);
+   var r = syncAjax(u);
 
 //                alert(r.result);
    if (r.result === 1) {
@@ -216,13 +125,17 @@ function login() {
       window.open("index.html#children_page", "_self");
    }
    else {
-      alert("username or password wrong");
+      alert("username or password wrong or please register");
       return;
    }
 }
 
+function reset() {
+   alert("Please see the school admin to help you reset your password");
+}
 
 var classid = 0;
+var child_id = 0;
 function get_children() {
 
    var url = phonegap + "action_1.php?cmd=10&parent_id=" + id;
@@ -233,7 +146,6 @@ function get_children() {
    if (children.result === 1) {
 //      console.log(assigns);
       var ins4 = "";
-      var ins5 = "";
       $.each(children.message, function (key, elem) {
 
 //         console.log(elem.actual_assignment);
@@ -245,7 +157,7 @@ function get_children() {
 
 //         onclick="get_hw_today(' + "'" + elem.class_id + "'" + ')"
 
-         ins4 += '<li class="ui-first-child ui-last-child"><a href="#" onclick="get_hw_today(' + "'" + elem.class_id + "'" + ')" class="ui-btn ui-btn-icon-right ui-icon-carat-r ui-last-child">' + elem.firstname + "     " + elem.lastname + '</a></li>';
+         ins4 += '<li class="ui-first-child ui-last-child"><a href="#" onclick="get_hw_today(' + elem.class_id + "," + elem.id +')" class="ui-btn ui-btn-icon-right ui-icon-carat-r ui-last-child">' + elem.firstname + " " + elem.lastname + '</a></li>';
 
 //         ins5 += "<div data-role='collapsible' id='set" + 1 + "'><h3>Section " + elem.firstname + "     " + elem.lastname + "</h3><p onclick='get_hw_today(" + elem.class_id + ")'>" + elem.firstname + " " + elem.lastname + "</p></div>";
 
@@ -280,8 +192,9 @@ function get_children() {
    }
 }
 
-function get_hw_today(classid) {
+function get_hw_today(classid, childid) {
    class_id_glob = classid;
+   child_id= childid;
 //  debugger ;
    window.open("index.html#hw_page", "_self");
 
@@ -294,8 +207,6 @@ function get_hw_today(classid) {
    var assignment = syncAjax(url);
 
    injector(assignment);
-
-
 }
 
 
@@ -307,7 +218,7 @@ function injector(assignment) {
       $.each(assignment.message, function (key, elem) {
 
 
-         ins5 += "<div data-role='collapsible' id='set" + 1 + "'><h3>" + elem.subject + "</h3><p> Assignment: " + elem.title + "<br> Due: " + getFormattedDate(elem.due) + "<br> Teacher: " + elem.teacher_name + "</p></div>";
+         ins5 += "<div data-role='collapsible' data-collapsed-icon='arrow-r' data-expanded-icon='arrow-d' id='set" + key + "'><h3>" + elem.subject + "</h3><p> Assignment: " + elem.title + "<br> Due: " + getFormattedDate(elem.due) + "<br> Teacher: " + elem.teacher_name + "<br><br><input onclick=sign_off(" + id + "," + child_id + ") type='checkbox' name='vehicle' value='Bike' id='sign_chk"+ key + "'> <br>Sign<br>" + "</p>" + "</div>";
       });
 //      $('#hw_list').html(ins4);
 
@@ -320,6 +231,10 @@ function injector(assignment) {
 
       $('#set').collapsibleset('refresh');
    }
+}
+
+function sign_off(pid, childid){
+   alert("this assignemnt has been completed");
 }
 
 function get_hw_details(text) {
@@ -352,13 +267,13 @@ function get_hw_week(classid) {
 //$("#id").attr("onclick","new_function_name()");
 
 function get_hw_week_trig() {
-   $("#hw_time_span").val("Homework within a week");
+   $("#hw_time_span").text("Homework within a week");
    get_hw_week(class_id_glob);
 }
 
 function get_hw_today_trig() {
 //   debugger;
-   $("#hw_time_span").val("Homework Due Tomorrow");
+   $("#hw_time_span").text("Homework due tomorrow");
    get_hw_today(class_id_glob);
 
 }

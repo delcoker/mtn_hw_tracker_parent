@@ -108,6 +108,7 @@ function get_assignment_week() {
             echo "{";
             echo jsons("subject", $dataset_hw["subject_name"]) . ",";
             echo jsons("title", $dataset_hw["assignment_title"]) . ",";
+            echo jsons("teacher_name", $dataset_hw["firstname"]. " ".  $dataset_hw["lastname"]) . ",";
             echo jsons("due", $dataset_hw["date_due"]);
             echo "}";
 

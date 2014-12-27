@@ -32,7 +32,7 @@
 
                <input type="submit" id="login" value="Login" onclick="login()">
                <div> &nbsp; </div><label></label>
-               <a class="lnk" href="#" data-transition="slidedown"> Forgotten Password?</a>
+               <a class="lnk" href="#" data-transition="slidedown" onclick="reset()"> Forgotten Password?</a>
                <div> &nbsp; </div><label></label>
                <a class="lnk" href="#register_page" data-transition="slidedown"> Register?</a>
 
@@ -47,115 +47,10 @@
          <!--<a href="#pageone" data-transition="pop">Slide to Page</a>-->
       </div>
       <!----------------------------------------------------------------------------------------------------------------->
-      <!--      <div data-role="page" id="home" data-theme="b">
-      
-               <div data-role="header">
-                  <h1>Home</h1>
-                  <a href="#pageone" data-role="button" data-icon="" data-iconpos="right" class="ui-btn-left">Hi there <div id="user" class="user"></div></a>
-                  <a href="#pageone" data-role="button" data-icon="arrow-u" data-iconpos="right" class="ui-btn-right"  onclick="logout()">Logout</a>
-                  <div data-role="navbar"> 
-                     <ul>
-                        <li><a href="#home" data-icon="home" data-iconpos="left" class="ui-btn-active ui-state-persist" data-transition="slideup">Home</a></li>
-                        <li><a href="#homeworks" data-icon="arrow-d" data-iconpos="left" data-transition="pop" onclick='get_assignments()'>View HWs</a></li>
-                     </ul>
-                  </div>
-                  classs="ui-btn-active ui-state-persist"
-               </div>
-               -------------------------------------------------------
-               <div role="main" class="ui-content">
-                  <h1>Add An Assignment</h1>
-      
-                  <div data-role="fieldcontain" id="schoolList">
-                     <fieldset data-role="controlgroup">
-                        <legend >Choose your school:</legend>
-                        <input type="radio" name="radio-choice-2" class="school" id="radio-choice-21" value="1" checked="checked" />
-                        <label for="radio-choice-21">Ghana I.S</label>
-                     </fieldset>
-                  </div>
-      
-                  <div data-role="fieldcontain" id="classList">
-                     <fieldset data-role="controlgroup">
-                        <legend>Select Class:</legend>
-                        <input type="radio" name="radio-choice-3" id="radio-choice-26" value="7" checked="checked" />
-                        <label for="radio-choice-26">Form 1</label>
-      
-                        <input type="radio" name="radio-choice-3" id="radio-choice-27" value="8"  />
-                     </fieldset>
-                  </div>
-      
-                  <div data-role="fieldcontain" id="subjectList">
-                     <fieldset data-role="controlgroup">
-                        <legend>Select Subject:</legend>
-                        <input type="radio" name="radio-choice-4" id="radio-choice-32" value="1" checked="checked" />
-                        <label for="radio-choice-32">Math</label>
-      
-                        <input type="radio" name="radio-choice-4" id="radio-choice-33" value="2"  />
-                     </fieldset>
-                  </div>
-      
-                  <h3>Set Date Due:</h3>
-                  <input id="due_date" type="date">
-      
-                  <h4>Assignment:</h4>
-                  <textarea id="actual_ass" placeholder="Do your midsem within 3 days even though I know you won't finish"></textarea>
-      
-      
-                  <button onclick="publish_ass()">Submit</button>
-               </div>
-               ---------------------------------------------------------
-               <div data-role="footer">
-                  <div data-role="controlgroup" data-type="horizontal">
-                     <Caption of group:</p>
-                     <a href="#" data-icon="arrow-l"  data-role="button" data-rel="back">Go Back</a>
-                  </div>
-               </div>
-            </div>-->
-      <!----------------------------------------------------------------------------------------------------------------->
-      <!--      <div data-role="page" id="homeworks" data-theme="b">
-               <div data-role="header">
-                  <h1>Views</h1>
-                  <a href="#pageone" data-role="button" data-icon="" data-iconpos="right" class="ui-btn-left">Hi there <div class="user"></div></a>
-                  <a href="#pageone" data-role="button" data-icon="arrow-u" data-iconpos="right" class="ui-btn-right"  onclick="logout()">Logout</a>
-                  <div data-role="navbar"> 
-                     <ul>
-                        <li><a href="#home" data-icon="home" data-iconpos="left" data-transition="slideup">Home</a></li>
-                        <li><a href="#homeworks" data-icon="arrow-d" data-iconpos="left" data-transition="pop"  class="ui-btn-active ui-state-persist" onclick='get_assignments2()' >View HWs</a></li>
-      
-                     </ul>
-                  </div>
-                  classs="ui-btn-active ui-state-persist"
-               </div>
-               -------------------------------------------------------
-               <div role="main" class="ui-content">
-                  <h1>My Assignments</h1>
-      
-                  <div data-role="" id="ass_list">
-                     <fieldset data-role="controlgroup">
-                        <h4>Assignments:</h4>
-                        <ol data-role="listview" data-inset="true" data-filter="true" id="assignments">
-                           <li>
-                              <a href='#' onclick='get_assignments()'>;</a>
-      
-                           </li>
-                        </ol>
-                     </fieldset>
-                  </div>
-      
-      
-               </div>
-               ---------------------------------------------------------
-               <div data-role="footer">
-                  <div data-role="controlgroup" data-type="horizontal">
-                     <Caption of group:</p>
-                     <a href="#" data-icon="arrow-l"  data-role="button" data-rel="back">Go Back</a>
-                  </div>
-               </div>
-            </div>-->
-      <!----------------------------------------------------------------------------------------------------------------->
       <div data-role="page" id="register_page" data-theme="b">
          <div data-role="header">
             <h1> Register</h1>
-            <a href="#pageone" data-role="button" data-icon="" data-iconpos="right" class="ui-btn-left">Hi there <div class="user"></div></a>
+            <a href="#" data-role="button" data-icon="" data-iconpos="right" class="ui-btn-left">Hi there <div class="user"></div></a>
             <!--            <a href="#pageone" data-role="button" data-icon="arrow-u" data-iconpos="right" class="ui-btn-right"  onclick="logout()">Logout</a>-->
             <div data-role="navbar"> 
                <ul>
@@ -282,22 +177,6 @@
 
             <a href="#panel_days" class="lnk" > Change Range</a>
 
-<!--            <div class="content-primary">
-               <fieldset data-role="controlgroup">
-                  <h4> Homework:</h4>
-                  <ol data-role="listview" data-inset="true" data-filter="true"  id="hw_list">
-                     <li>
-                        <a href='#' id="due_today" onclick='get_hw_today_trig()'> HW 1 - error - Please sign in</a>
-                     </li>
-                     <li>
-                        <a href='#' onclick='get_hw_week_trig()'> HW 2 - error - Please sign in</a>
-
-                     </li>
-                  </ol>
-
-
-               </fieldset>
-            </div>-->
 
             <div data-role="collapsible-set" id="set">
 
