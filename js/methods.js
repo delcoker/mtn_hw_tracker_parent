@@ -1,14 +1,13 @@
 // created because database structure changed the last minute
 var global_drop_off = 0;
 
-// $_SESSION['username'] = $username;
-//      $_SESSION['role_id'] = $result['role_role_id'];
-//      $_SESSION['amount_left'] = $result['amount_left'];
-//      $_SESSION['id'] = $result['user_id'];
-
 //var user_id = 0;
 var user_name = 0;
+var t_firstname = 0;
+var t_lastname = 0;
 var class_id_glob = 0;
+var childname = 0;
+
 
 var phonegap = "https://50.63.128.135/~csashesi/class2015/kingston-coker/mobile_web/hw_tracker_parent/";
 //var phonegap = "";
@@ -22,6 +21,33 @@ var phonegap = "https://50.63.128.135/~csashesi/class2015/kingston-coker/mobile_
 //
 //});
 
+function toast(message) {
+   $(".element").cftoaster({
+      content: message, // string, can be html
+      element: "body", // DOM element to insert the message
+      animationTime: 150, // time in ms for the animation, -1 to show no animation
+      showTime: 3000, // time in ms for the toast message to stay visible
+      maxWidth: 250, // maximum width of the message container in px
+      backgroundColor: "#1a1a1a", // hexadecimal value of the colour, requires "#" prefix
+      fontColor: "#eaeaea", // hexadecimal value of the colour, requires "#" prefix
+      bottomMargin: 75 // space to leave between the bottom of the toast message and the bottom of the browser window in px
+   });
+}
+
+
+$(document).on('pagebeforecreate', '[data-role="page"]', function () {
+   setTimeout(function () {
+      $.mobile.loading('show');
+   }, -1);
+});
+
+$(document).on('pageshow', '[data-role="page"]', function () {
+   setTimeout(function () {
+      $.mobile.loading('hide');
+   }, 300);
+});
+
+
 //debugger;
 function syncAjax(u) {
    var obj = $.ajax({url: u, async: false});
@@ -34,12 +60,15 @@ var subject_id;
 
 var id = 0;
 
+
+
 function register() {
    var pass1 = document.getElementById("password1").value;
    var pass2 = document.getElementById("password2").value;
 
    if (pass1 !== pass2) {
       alert("Your passwords don't match. Please try again");
+      $.mobile.loading('hide');
       return;
    }
 
@@ -51,10 +80,12 @@ function register() {
 
    if (username.length === 0) {
       alert("Please enter a username");
+      $.mobile.loading('hide');
       return;
    }
    else if (pass.length === 0) {
       alert("Please enter a password");
+      $.mobile.loading('hide');
       return;
    }
 
@@ -69,6 +100,7 @@ function register() {
    if (r.result === 1) {
       alert(r.message + "\nPlease see the school for further assistance");
       window.open("index.html", "_self");
+      $.mobile.loading('hide');
       return;
    }
 
@@ -79,6 +111,7 @@ function register() {
    var r2 = syncAjax(url2);
    if (r2.result === 0) {
       alert(r.message);
+      $.mobile.loading('hide');
       return;
    }
 
@@ -103,11 +136,14 @@ function logout() {
 
 function login() {
 
+
+
+//   $.mobile.loading('show');
    //complete the url
    var user = document.getElementById("username").value;
    var pass = document.getElementById("password").value;
 
-   var u = phonegap+"action_1.php?cmd=2&user=" + user + "&pass=" + pass;
+   var u = phonegap + "action_1.php?cmd=2&user=" + user + "&pass=" + pass;
 //   prompt("URL", u);
    var r = syncAjax(u);
 
@@ -125,9 +161,12 @@ function login() {
       window.open("index.html#children_page", "_self");
    }
    else {
-      alert("username or password wrong or please register");
+
+      alert("username or password wrong");
+      toast("Or please register");
       return;
    }
+
 }
 
 function reset() {
@@ -156,28 +195,10 @@ function get_children() {
          classid = elem.class_id;
 
 //         onclick="get_hw_today(' + "'" + elem.class_id + "'" + ')"
-
-         ins4 += '<li class="ui-first-child ui-last-child"><a href="#" onclick="get_hw_today(' + elem.class_id + "," + elem.id + ')" class="ui-btn ui-btn-icon-right ui-icon-carat-r ui-last-child">' + elem.firstname + " " + elem.lastname + '</a></li>';
-
-//         ins5 += "<div data-role='collapsible' id='set" + 1 + "'><h3>Section " + elem.firstname + "     " + elem.lastname + "</h3><p onclick='get_hw_today(" + elem.class_id + ")'>" + elem.firstname + " " + elem.lastname + "</p></div>";
-
-//         $(document).on("pageinit", function () {
-//            var nextId = 1;
-//            $("#add").click(function () {
-//               nextId++;
-//               var content = "<div data-role='collapsible' id='set" + nextId + "'><h3>Section " + nextId + "</h3><p>I am the collapsible content in a set so this feels like an accordion. I am hidden by default because I have the 'collapsed' state; you need to expand the header to see me.</p></div>";
-//               $("#set").append(content).collapsibleset('refresh');
-//            });
-//            $("#expand").click(function () {
-//               $("#set").children(":last").trigger("expand");
-//            });
-//            $("#collapse").click(function () {
-//               $("#set").children(":last").trigger("collapse");
-//            });
-//         });
+         var child_name = elem.firstname + " " + elem.lastname;
+         ins4 += '<li class="ui-first-child ui-last-child"><a href="#" data-transition="slideright" onclick="get_hw_today(' + elem.class_id + "," + elem.id + ",\'" + child_name + '\')" class="ui-btn ui-btn-icon-right ui-icon-carat-r ui-last-child">' + child_name + '</a></li>';
 
       });
-
 
       $('#children_list').html(ins4);
 //      window.open("index.html", "_self");
@@ -187,64 +208,110 @@ function get_children() {
    }
 
    else {
-      alert("Please login");
-      window.open("index.html", "_self");
+      relogin();
    }
+   $.mobile.loading('hide');
 }
 
-function get_hw_today(classid, childid) {
+function relogin(){
+   toast("Please login again");
+//      alert("Please login");
+      window.open("index.html", "_self");
+}
+
+function get_hw_today(classid, childid, childame) {
+   childname = childame;
    class_id_glob = classid;
    child_id = childid;
 //  debugger ;
-   window.open("index.html#hw_page", "_self");
+//   window.open("index.html#hw_page", "_self");
 
    var date = new Date();
 
-//
    var url = phonegap + "action_1.php?cmd=11&pid=" + id + "&cid=" + classid + "&date=" + getFormattedDate(date);
 
 //   prompt("url", url);
    var assignment = syncAjax(url);
 
-   injector(assignment);
+   injector(assignment, " tomorrow");
 }
 
 
-function injector(assignment) {
+function injector(assignment, time) {
+   window.open("index.html#hw_page", "_self");
+
+//   $("#hw_time_span").text("Homework Due");
+   $("#hw_time_span").text(childname + "'s homework, due " + time);
+
+
+   var ins5 = "<div data-role='collapsible' data-collapsed-icon='carat-r' data-expanded-icon='carat-d' id='set" + -1 + "'><h3>" + "None" + "</h3><p> Assignment: " + "None" + "<br> Due: " + "None" + "<br> Teacher: " + "None" + "</p>" + "</div>";
    if (assignment.result === 1) {
 //      console.log(assigns);
 //      var ins4 = "";
       var ins5 = "";
+
       $.each(assignment.message, function (key, elem) {
 
+         var checked = "";
 
-         ins5 += "<div data-role='collapsible' data-collapsed-icon='arrow-r' data-expanded-icon='arrow-d' id='set" + key + "'><h3>" + elem.subject + "</h3><p> Assignment: " + elem.title + "<br> Due: " + getFormattedDate(elem.due) + "<br> Teacher: " + elem.teacher_name + "<br><br><input onclick=sign_off(" + id + "," + child_id + ") type='checkbox' name='vehicle' value='Bike' id='sign_chk" + key + "'> <br>Sign<br>" + "</p>" + "</div>";
+         if (elem.done === "1") {
+            checked = "checked";
+         }
+         ins5 += "<div data-role='collapsible' data-collapsed-icon='carat-r' data-expanded-icon='carat-d' id='set" + key + "'><h3>" + elem.subject + "</h3><p> Assignment: " + elem.title + "<br> Due: " + getFormattedDate(elem.due) + "<br> Teacher: " + elem.teacher_name + "<br><br><input onclick=sign_off(" + id + "," + child_id + "," + elem.given_hw_id + "," + key + ") type='checkbox'  id='sign_chk" + key + "'" + checked + "> <br>Sign<br>" + "</p>" + "</div>";
       });
-//      $('#hw_list').html(ins4);
-
-      $('#set').html(ins5);
-
 
 //      debugger;
 
 //$("#panel_days").panel("open");
 
-      $('#set').collapsibleset('refresh');
+
    }
+
+   $('#set').html(ins5);
+
+//   $(document).on('pageshow', '[data-role="page"]', function () {
+   $('#set').collapsibleset('refresh');
+
+
+//   });
+
 }
 
-function sign_off(pid, childid) {
-   alert("this assignemnt has been completed");
+function sign_off(pid, childid, hw_id, checkboxNum) {
+
+//   var checkbox1 = $(obj.get[0].tagname);
+//   toast(checkbox1);
+   var checkbox = $("#sign_chk" + checkboxNum).is(':checked');
+//   toast(checkbox);
+   if (checkbox) {
+
+      var url = phonegap + "action_1.php?cmd=13&pid=" + id + "&cid=" + childid + "&hid=" + hw_id + "&sign=" + 1;
+
+      var j = syncAjax(url);
+      if (j.result === 1)
+         toast("This assignment has been completed");
+   }
+
+   else if (!checkbox) {
+      var url = phonegap + "action_1.php?cmd=13&pid=" + id + "&cid=" + childid + "&hid=" + hw_id + "&sign=" + 0;
+
+      var j = syncAjax(url);
+      if (j.result === 1)
+         toast("This assignment is pending");
+   }
+
+//   alert("this assignemnt has been completed");
 }
 
 function get_hw_details(text) {
    alert(text);
 }
 
-function get_hw_week(classid) {
+function get_hw_week(classid, childid, childame) {
    class_id_glob = classid;
+   childname = childame;
 //  debugger ;
-   window.open("index.html#hw_page", "_self");
+
 
 
 //   $(document).on('pagebeforeshow', '#hw_page', function () {
@@ -259,7 +326,7 @@ function get_hw_week(classid) {
 //   prompt("url", url);
    var assignment = syncAjax(url);
 
-   injector(assignment);
+   injector(assignment, " within the week");
 }
 
 
@@ -267,19 +334,19 @@ function get_hw_week(classid) {
 //$("#id").attr("onclick","new_function_name()");
 
 function get_hw_week_trig() {
-   $("#hw_time_span").text("Homework within a week");
-   get_hw_week(class_id_glob);
+//   $("#hw_time_span").text(childname + "'s homework, was/is due within this week");
+   get_hw_week(class_id_glob, child_id, childname);
 }
 
 function get_hw_today_trig() {
 //   debugger;
-   $("#hw_time_span").text("Homework due tomorrow");
-   get_hw_today(class_id_glob);
-
+//   $("#hw_time_span").text(childname + "'s homework, due tomorrow");
+   get_hw_today(class_id_glob, child_id, childname);
 }
 
 function get_hw() {
-   alert("Please click on a child to get details");
+
+//   alert("Please click on a child to get details");
 }
 
 function popUp(text) {

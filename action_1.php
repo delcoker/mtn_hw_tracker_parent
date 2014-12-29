@@ -69,8 +69,13 @@ switch ($cmd) {
    case 11:
       get_assignment_tomorrow();
       break;
+
    case 12:
       get_assignment_week();
+      break;
+
+   case 13:
+      sign_off();
       break;
 
    default:
@@ -79,6 +84,27 @@ switch ($cmd) {
       echo ",";
       echo jsons("message", "not a recognised command");
       echo "}";
+}
+
+function sign_off() {
+   include_once './classes/student_has_assignement_class.php';
+   $sign = get_datan("sign");
+   $cid = get_datan("cid");
+   $hid = get_data("hid");
+
+   $sobj = new student_has_assignement_class();
+
+   if (!$sobj->parent_sign_off($sign, $cid, $hid)) {
+      echo "{";
+      echo jsonn("result", 0) . ",";
+      echo jsons("message", "Could not update");
+      echo "}";
+      return;
+   }
+   echo "{";
+   echo jsonn("result", 1) . ",";
+   echo jsons("message", "Updated successfully");
+   echo "}";
 }
 
 function get_assignment_week() {
@@ -108,7 +134,9 @@ function get_assignment_week() {
             echo "{";
             echo jsons("subject", $dataset_hw["subject_name"]) . ",";
             echo jsons("title", $dataset_hw["assignment_title"]) . ",";
-            echo jsons("teacher_name", $dataset_hw["firstname"]. " ".  $dataset_hw["lastname"]) . ",";
+            echo jsons("teacher_name", $dataset_hw["firstname"] . " " . $dataset_hw["lastname"]) . ",";
+            echo jsons("given_hw_id", $dataset_hw["given_hw_id"]) . ",";
+            echo jsons("done", $dataset_hw["completed"]) . ",";
             echo jsons("due", $dataset_hw["date_due"]);
             echo "}";
 
@@ -149,7 +177,9 @@ function get_assignment_tomorrow() {
             echo "{";
             echo jsons("subject", $dataset_hw["subject_name"]) . ",";
             echo jsons("title", $dataset_hw["assignment_title"]) . ",";
-            echo jsons("teacher_name", $dataset_hw["firstname"]. " ".  $dataset_hw["lastname"]) . ",";
+            echo jsons("teacher_name", $dataset_hw["firstname"] . " " . $dataset_hw["lastname"]) . ",";
+            echo jsons("given_hw_id", $dataset_hw["given_hw_id"]) . ",";
+            echo jsons("done", $dataset_hw["completed"]) . ",";
             echo jsons("due", $dataset_hw["date_due"]);
             echo "}";
 

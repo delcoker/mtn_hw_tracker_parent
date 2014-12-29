@@ -52,10 +52,13 @@ WHERE mw_hw_tracker_given_hw.teacher_teacher_id  = $prof_id order by date_due de
    }
 
    function get_details_w_parent_due_tomorrow($parent_id, $class_id, $date) {
-      $query = "select * from mw_hw_tracker_given_hw LEFT JOIN mw_hw_tracker_student ON mw_hw_tracker_given_hw.school_school_id = mw_hw_tracker_student.school_id
+      $query = "select * FROM mw_hw_tracker_given_hw
+LEFT JOIN mw_hw_tracker_student ON mw_hw_tracker_given_hw.school_school_id = mw_hw_tracker_student.school_id
 LEFT JOIN mw_hw_tracker_assignment ON mw_hw_tracker_given_hw.assignment_assignment_id = mw_hw_tracker_assignment.assignment_id
 LEFT JOIN mw_hw_tracker_subject ON mw_hw_tracker_subject.subject_id = mw_hw_tracker_given_hw.subject_subject_id
-LEFT JOIN mw_hw_tracker_teacher ON mw_hw_tracker_given_hw.teacher_teacher_id = mw_hw_tracker_teacher.teacher_id where parent_id = $parent_id and mw_hw_tracker_given_hw.class_class_id = $class_id and DATE_ADD(date_due, INTERVAL -1 DAY) = '$date'";
+LEFT JOIN mw_hw_tracker_teacher ON mw_hw_tracker_given_hw.teacher_teacher_id = mw_hw_tracker_teacher.teacher_id
+right JOIN mw_hw_tracker_student_has_assignment ON mw_hw_tracker_student_has_assignment.given_hw_id = mw_hw_tracker_given_hw.given_hw_id
+where parent_id = $parent_id and mw_hw_tracker_given_hw.class_class_id = $class_id and DATE_ADD(date_due, INTERVAL -1 DAY) = '$date'";
 //      print$query;
       $res = $this->query($query);
 //        print("--------------------------------------------------------------------------------");
@@ -64,10 +67,13 @@ LEFT JOIN mw_hw_tracker_teacher ON mw_hw_tracker_given_hw.teacher_teacher_id = m
    }
 
    function get_details_w_parent_due_week($parent_id, $class_id, $date) {
-      $query = "select * from mw_hw_tracker_given_hw LEFT JOIN mw_hw_tracker_student ON mw_hw_tracker_given_hw.school_school_id = mw_hw_tracker_student.school_id
+      $query = "select * FROM mw_hw_tracker_given_hw
+LEFT JOIN mw_hw_tracker_student ON mw_hw_tracker_given_hw.school_school_id = mw_hw_tracker_student.school_id
 LEFT JOIN mw_hw_tracker_assignment ON mw_hw_tracker_given_hw.assignment_assignment_id = mw_hw_tracker_assignment.assignment_id
 LEFT JOIN mw_hw_tracker_subject ON mw_hw_tracker_subject.subject_id = mw_hw_tracker_given_hw.subject_subject_id
-LEFT JOIN mw_hw_tracker_teacher ON mw_hw_tracker_given_hw.teacher_teacher_id = mw_hw_tracker_teacher.teacher_id where parent_id = $parent_id and mw_hw_tracker_given_hw.class_class_id = $class_id and '$date' between DATE_ADD(date_due, INTERVAL -4 DAY) and DATE_ADD(date_due, INTERVAL 3 DAY)";
+LEFT JOIN mw_hw_tracker_teacher ON mw_hw_tracker_given_hw.teacher_teacher_id = mw_hw_tracker_teacher.teacher_id
+right JOIN mw_hw_tracker_student_has_assignment ON mw_hw_tracker_student_has_assignment.given_hw_id = mw_hw_tracker_given_hw.given_hw_id
+where parent_id = $parent_id and mw_hw_tracker_given_hw.class_class_id = $class_id and '$date' between DATE_ADD(date_due, INTERVAL -4 DAY) and DATE_ADD(date_due, INTERVAL 3 DAY)";
 //      print($query);
       $res = $this->query($query);
 //        print("--------------------------------------------------------------------------------");

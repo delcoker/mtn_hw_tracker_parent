@@ -1553,7 +1553,7 @@ div.ui-mobile-viewport {
 /* To ensure same top and left/right position when ui-btn-left/right are added to something other than buttons. */
 .ui-header .ui-btn-left,
 .ui-header .ui-btn-right {
-	font-size: 12.5px;
+	font-size: 12px;
 }
 .ui-mini.ui-btn-icon-notext,
 .ui-mini .ui-btn-icon-notext,
@@ -1639,7 +1639,7 @@ div.ui-mobile-viewport {
 .ui-header .ui-btn-right,
 .ui-btn-left > [class*="ui-"],
 .ui-btn-right > [class*="ui-"] {
-	margin: 0;
+	margin: -2px;
 }
 .ui-btn-left,
 .ui-btn-right {
@@ -2731,7 +2731,7 @@ li.ui-block-e {
 .ui-navbar li .ui-btn {
 	font-size: 12.5px;
 	display: block;
-	margin: 0;
+	margin: -1px;
 	border-right-width: 0;
 }
 .ui-header .ui-navbar li button.ui-btn,
@@ -3576,7 +3576,7 @@ fieldset.ui-controlgroup {
 .ui-listview > .ui-li-static,
 .ui-listview > .ui-li-divider,
 .ui-listview > li > a.ui-btn {
-	margin: 0;
+	margin: 0px;
 	display: block;
 	position: relative;
 	text-align: left;
@@ -3604,6 +3604,10 @@ fieldset.ui-controlgroup {
 .ui-listview > li.ui-last-child > a.ui-btn {
 	border-bottom-width: 1px;
 }
+
+a.ui-btn {}
+
+a.ui-btn {}
 .ui-collapsible-content > .ui-listview:not(.ui-listview-inset) > li.ui-first-child,
 .ui-collapsible-content > .ui-listview:not(.ui-listview-inset) > li.ui-first-child > a.ui-btn {
 	border-top-width: 0;
@@ -4601,7 +4605,7 @@ html .ui-popup .ui-field-contain > label + .ui-flipswitch {
 /* Panel right closed animated */
 .ui-panel-animate.ui-panel-position-right.ui-panel-display-overlay,
 .ui-panel-animate.ui-panel-position-right.ui-panel-display-push {
-	right: 0;
+	right: -28px;
 	-webkit-transform: translate3d(17em,0,0);
 	-moz-transform: translate3d(17em,0,0);
 	transform: translate3d(17em,0,0);
