@@ -40,7 +40,7 @@ class parent_class extends adb {
     * @return if successful true else false
     */
    function register($username, $password, $pid) {
-      $query = "update mw_hw_tracker_parent set username = '$username', password = $password where parent_id = $pid";
+      $query = "update mw_hw_tracker_parent set username = '$username', password = '$password' where parent_id = $pid";
    
 //      print($query);
       
