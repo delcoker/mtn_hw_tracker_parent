@@ -26,7 +26,7 @@ function toast(message) {
       content: message, // string, can be html
       element: "body", // DOM element to insert the message
       animationTime: 150, // time in ms for the animation, -1 to show no animation
-      showTime: 3000, // time in ms for the toast message to stay visible
+      showTime: 2000, // time in ms for the toast message to stay visible
       maxWidth: 250, // maximum width of the message container in px
       backgroundColor: "#1a1a1a", // hexadecimal value of the colour, requires "#" prefix
       fontColor: "#eaeaea", // hexadecimal value of the colour, requires "#" prefix
@@ -60,9 +60,12 @@ var subject_id;
 
 var id = 0;
 
-
+function load(){
+   toast("loading");
+}
 
 function register() {
+   load();
    var pass1 = document.getElementById("password1").value;
    var pass2 = document.getElementById("password2").value;
 
@@ -131,12 +134,13 @@ function getFormattedDate(date1) {
 }
 
 function logout() {
+   load();
    window.open("index.html", "_self");
 }
 
 function login() {
 
-
+load();
 
 //   $.mobile.loading('show');
    //complete the url
@@ -170,6 +174,7 @@ function login() {
 }
 
 function reset() {
+   load();
    alert("Please see the school admin to help you reset your password");
 }
 
@@ -335,10 +340,12 @@ function get_hw_week(classid, childid, childame) {
 
 function get_hw_week_trig() {
 //   $("#hw_time_span").text(childname + "'s homework, was/is due within this week");
+load();
    get_hw_week(class_id_glob, child_id, childname);
 }
 
 function get_hw_today_trig() {
+   load();
 //   debugger;
 //   $("#hw_time_span").text(childname + "'s homework, due tomorrow");
    get_hw_today(class_id_glob, child_id, childname);
