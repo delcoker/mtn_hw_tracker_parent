@@ -60,7 +60,7 @@ var subject_id;
 
 var id = 0;
 
-function load(){
+function load() {
    toast("loading");
 }
 
@@ -140,7 +140,7 @@ function logout() {
 
 function login() {
 
-load();
+   load();
 
 //   $.mobile.loading('show');
    //complete the url
@@ -218,10 +218,10 @@ function get_children() {
    $.mobile.loading('hide');
 }
 
-function relogin(){
+function relogin() {
    toast("Please login again");
 //      alert("Please login");
-      window.open("index.html", "_self");
+   window.open("index.html", "_self");
 }
 
 function get_hw_today(classid, childid, childame) {
@@ -340,7 +340,7 @@ function get_hw_week(classid, childid, childame) {
 
 function get_hw_week_trig() {
 //   $("#hw_time_span").text(childname + "'s homework, was/is due within this week");
-load();
+   load();
    get_hw_week(class_id_glob, child_id, childname);
 }
 

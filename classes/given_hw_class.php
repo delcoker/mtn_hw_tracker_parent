@@ -73,7 +73,7 @@ LEFT JOIN mw_hw_tracker_assignment ON mw_hw_tracker_given_hw.assignment_assignme
 LEFT JOIN mw_hw_tracker_subject ON mw_hw_tracker_subject.subject_id = mw_hw_tracker_given_hw.subject_subject_id
 LEFT JOIN mw_hw_tracker_teacher ON mw_hw_tracker_given_hw.teacher_teacher_id = mw_hw_tracker_teacher.teacher_id
 right JOIN mw_hw_tracker_student_has_assignment ON mw_hw_tracker_student_has_assignment.given_hw_id = mw_hw_tracker_given_hw.given_hw_id
-where parent_id = $parent_id and mw_hw_tracker_given_hw.class_class_id = $class_id and '$date' between DATE_ADD(date_due, INTERVAL -4 DAY) and DATE_ADD(date_due, INTERVAL 3 DAY)";
+where parent_id = $parent_id and mw_hw_tracker_given_hw.class_class_id = $class_id and '$date' between DATE_ADD(date_due, INTERVAL -7 DAY) and DATE_ADD(date_due, INTERVAL 7 DAY)";
 //      print($query);
       $res = $this->query($query);
 //        print("--------------------------------------------------------------------------------");
